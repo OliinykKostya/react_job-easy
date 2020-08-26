@@ -1,24 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import Form from './Form';
+import ListOfMessage from './ListOfMessage';
+import {getMessageFromServer, addMessageToServer} from './api'
 
-function App() {
+const App = () => {
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    refreshMessage()
+  }, [])
+
+  const refreshMessage = async () => {
+    console.log("refreshFilms")
+
+    await getMessageFromServer()
+      .then(data => setData(data))
+  }
+
+  const addMessage = async (name, message) => {
+    await addMessageToServer(Date.now() + '', name, message, )
+    refreshMessage()
+    console.log(name, message)
+
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+
+        <Form addMessage={addMessage} />
+        {data ? <ListOfMessage data={data} /> : 'data not found'}
+
+      </div>
     </div>
   );
 }
