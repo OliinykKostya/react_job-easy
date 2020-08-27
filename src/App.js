@@ -1,37 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
-import Form from './Form';
-import ListOfMessage from './ListOfMessage';
-import {getMessageFromServer, addMessageToServer} from './api'
+import './App.scss';
+import Form from './components/Form/Form';
+import ListOfMessage from './components/ListOfMessages/ListOfMessage';
+import { getMessageFromServer, addMessageToServer } from './api/api'
+import Spinner from './components/Spinner/Spinner';
 
 const App = () => {
   const [data, setData] = useState([])
+  const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
     refreshMessage()
   }, [])
 
   const refreshMessage = async () => {
-    console.log("refreshFilms")
-
+    setLoading(true)
     await getMessageFromServer()
       .then(data => setData(data))
+    setLoading(false)
   }
 
   const addMessage = async (name, message) => {
-    await addMessageToServer(Date.now() + '', name, message, )
+    await addMessageToServer(Date.now() + '', name, message,)
     refreshMessage()
-    console.log(name, message)
-
   }
 
   return (
-    <div className="App">
-      <div>
-
+    <div className="App" >
+      <div className="container__form">
         <Form addMessage={addMessage} />
-        {data ? <ListOfMessage data={data} /> : 'data not found'}
-
+      </div>
+      <div className="container__list">
+        {isLoading
+          ? <Spinner />
+          : data ? <ListOfMessage data={data} test={test} /> : "ERROR Data not Found"
+        }
       </div>
     </div>
   );

@@ -1,0 +1,45 @@
+@import "./components/reset.scss";
+
+.container {
+  &__form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__list {
+    display: flex;
+    justify-content: center;
+  }
+
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+
+  &__textarea {
+    width: 200px;
+  }
+
+  &__button {
+    margin-bottom: 20px;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+
+  &__card {
+    width: 500px;
+    margin-bottom: 10px;
+
+    &__h5 {
+      text-align: center;
+    }
+  }
+}
