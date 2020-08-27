@@ -24,7 +24,7 @@ const Form = ({ addMessage }) => {
           value={name}
           placeholder="Put name here"
           required
-          onChange={(event) => setName(event.target.value.trim())}
+          onChange={(event) => setName(event.target.value)}
         />
       </div>
 
