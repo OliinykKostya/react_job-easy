@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './App.scss';
 import Form from './components/Form/Form';
-import ListOfMessage from './components/ListOfMessages/ListOfMessage';
+import ListOfMessage from './components/ListOfMessages/ListOfMessages';
 import { getMessageFromServer, addMessageToServer } from './api/api'
 import Spinner from './components/Spinner/Spinner';
 
 const App = () => {
   const [data, setData] = useState([])
   const [isLoading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     refreshMessage()
@@ -17,6 +18,7 @@ const App = () => {
     setLoading(true)
     await getMessageFromServer()
       .then(data => setData(data))
+      .catch(() => setError(true))
     setLoading(false)
   }
 
@@ -33,7 +35,9 @@ const App = () => {
       <div className="container__list">
         {isLoading
           ? <Spinner />
-          : data ? <ListOfMessage data={data} test={test} /> : "ERROR Data not Found"
+          : error
+            ? <p>Error, Data was not find</p>
+            : <ListOfMessage data={data} />
         }
       </div>
     </div>
